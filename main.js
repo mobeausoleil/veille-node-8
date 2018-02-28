@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
-const bodyParser= require('body-parser');
+const bodyParser = require('body-parser');
 const ObjectID = require('mongodb').ObjectID;
 app.use(bodyParser.urlencoded({extended: true}));
 const peupler = require("./mes_modules/peupler");
@@ -17,6 +17,13 @@ app.set('view engine', 'ejs'); // générateur de template
 
 app.use(express.static('public'));
 app.use(cookieParser());
+
+i18n.configure({ 
+   locales : ['fr', 'en'],
+   cookie : 'langueChoisie', 
+   directory : __dirname + '/locales' });
+
+app.use(i18n.init);
 
 //Connexion à mongoDB et au serveur Node.Js
 let db // variable qui contiendra le lien sur la BD
