@@ -1,6 +1,15 @@
 {
-	"courriel" : "Email",
-	"acc":"Home",
-	"membre":"Member",
-	"cherche":"Search"
+	"courriel": "Email",
+	"acc": "Home",
+	"membre": "Member",
+	"cherche": "Search",
+	"recherche": "recherche",
+	"peupler" : "Fill",
+	"vider" : "Empty",
+	"nom": "Last name",
+	"prenom": "Name",
+	"bienvenu": "Welcome to the list of members!!",
+	"textAcc": "Navigate through the menu to manage the list.",
+	"bienvenuRech": "Welcome to the searching tool",
+	"instRech": "Fill in the form with your search criteria"
 }

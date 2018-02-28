@@ -39,28 +39,47 @@ MongoClient.connect('mongodb://127.0.0.1:27017/carnet_adresses', (err, database)
 
 ///////////////////////////////////////////////////////////////////////////Routes
 
+/////////////////////////////////////////////////////Internationalisation
+
+app.get('/:locale(en|fr)', (req, res)=>{
+
+	if(req.params.locale == "en"){
+		req.params.locale = "fr";
+	} else {
+		req.params.locale = "en";
+	}
+	
+	res.cookie('langueChoisie' , req.params.locale);
+	res.setLocale(req.params.locale);
+
+	res.render('accueil.ejs');
+	req.originalUrl();
+})
+
 ////////////////////////////////////////////////////accueil
 app.get('/', (req, res) => {
 	let cursor = db.collection('adresses').find().toArray((err, resultat) => {
  		if (err) return console.log(err);
-  	res.render('accueil.ejs', {adresses: resultat, direction: "asc"});
-  });
+ 		if(res.getLocale() == null){req.params.locale = "en"}
+ 		console.log(req.cookies.langueChoisie);
+ 		res.render('accueil.ejs', {adresses: resultat, direction: "asc"});
+ 	});
 });
 
 ////////////////////////////////////////////////////Liste des membres
 app.get('/membres', (req, res) => {
 	let cursor = db.collection('adresses').find().toArray((err, resultat) => {
  		if (err) return console.log(err);
-  	res.render('gabarit.ejs', {adresses: resultat, direction: "asc"});
-  });
+  		res.render('gabarit.ejs', {adresses: resultat, direction: "asc"});
+  	});
 });
 
 ////////////////////////////////////////////////////Page de recherche
 app.get('/profil', (req, res) => {
 	let cursor = db.collection('adresses').find().toArray((err, resultat) => {
  		if (err) return console.log(err);
-  	res.render('profil.ejs', {adresses: resultat, direction: "asc", membre: undefined});
-  });
+  		res.render('profil.ejs', {adresses: resultat, direction: "asc", membre: undefined});
+  	});
 });
 
 /////////////////////////////////////////////////////ajouter
@@ -164,13 +183,3 @@ app.get('/profilmembre/:id', (req, res) => {
   });
 });
 
-////////////////////////////////////////////////////Internationalisation
-
-app.get('/:locale(en|fr)', (req, res)=>{
-
-	console.log(req.params.locale);
-	res.setLocale(req.params.locale);
-	console.log(res.__('courriel'));
-
-	res.render('accueil.ejs');
-})

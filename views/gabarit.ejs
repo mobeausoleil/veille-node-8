@@ -7,8 +7,8 @@
 <div id="global">
 	<nav>
 		<ul>
-			<li><a href="http://localhost:8081/peupler">Peupler</a></li>
-			<li><a href="http://localhost:8081/vider">Vider</a></li>
+			<li><a href="http://localhost:8081/peupler"><%= __("peupler") %></a></li>
+			<li><a href="http://localhost:8081/vider"><%= __("vider") %></a></li>
 		</ul>
 	</nav>
  <table class="tableau">
@@ -20,7 +20,7 @@
 			 <% noLigne++
 			 for (p in elm ){ %>
 				 <% if(p == "nom" || p == "prenom") { %>
-				 <th><a href='http://localhost:8081/trier/<%= p %>/<%= direction %>'><%= p %></a></th>
+				 <th><a href='http://localhost:8081/trier/<%= __(p) %>/<%= direction %>'><%= p %></a></th>
 				 <% } %>
 			 <% } %>
 		 </tr>

@@ -1,6 +1,15 @@
 {
-	"courriel" : "Courriel",
-	"acc":"Accueil",
-	"membre":"Membre",
-	"cherche":"Recherche"
+	"courriel": "Courriel",
+	"acc": "Accueil",
+	"membre": "Membre",
+	"cherche": "Recherche",
+	"recherche": "recherche",
+	"peupler" : "Peupler",
+	"vider" : "Vider",
+	"nom": "Nom",
+	"prenom": "Prenom",
+	"bienvenu": "Bienvenu sur la liste des membres!",
+	"textAcc": "Naviguez dans le menu pour gérer la listes des membres",
+	"bienvenuRech": "Bienvenu sur la recherche de membres",
+	"instRech": "Entrez votre critère de recherche"
 }
