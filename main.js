@@ -95,16 +95,16 @@ app.post('/modifier', (req, res) => {
 
 ///////////////////////////////////////////////////Trier
 app.get('/trier/:cle/:ordre', (req, res) => {
-	let cle = req.params.cle
-	let ordre = (req.params.ordre == 'asc' ? 1 : -1)
+	let cle = req.params.cle;
+	let ordre = (req.params.ordre == 'asc' ? 1 : -1);
 	let cursor = db.collection('adresses').find().sort(cle,ordre).toArray((err, resultat)=>{
 		ordre *= -1;
-		let direction = (ordre == 1 ? "asc" : "desc")
+		let direction = (ordre == 1 ? "asc" : "desc");
 		res.render('gabarit.ejs', {
 			adresses: resultat, cle, direction
-		})
-	})
-})
+		});
+	});
+});
 
 //////////////////////////////////////////////////Peupler
 app.get('/peupler', (req, res) => {
@@ -118,26 +118,26 @@ app.get('/peupler', (req, res) => {
 	console.log(peuple);
 
 	db.collection('adresses').insert(peuple, (err, result) => {
-		if (err) return console.log(err)
-		console.log('sauvegarder dans la BD')
-		res.redirect('/membres')
-	})
-})
+		if (err) return console.log(err);
+		console.log('sauvegarder dans la BD');
+		res.redirect('/membres');
+	});
+});
 
 //////////////////////////////////////////////////Vider la liste des membres
 app.get('/vider', (req, res) => {
 
 	db.collection('adresses').drop((err, result) => {
-		if (err) return console.log(err)
-		console.log('Liste de membres vidée')
-		res.redirect('/membres')
-	})
-})
+		if (err) return console.log(err);
+		console.log('Liste de membres vidée');
+		res.redirect('/membres');
+	});
+});
 
 /////////////////////////////////////////////////////Rechercher des membres
 app.post('/profil/recherche/', (req, res) => {
-	console.log(req.body.recherche)
-	let recherche = req.body.recherche
+	console.log(req.body.recherche);
+	let recherche = req.body.recherche;
 	let membresChercher = db.collection('adresses')
 		.find(
 			{$or:
@@ -149,39 +149,28 @@ app.post('/profil/recherche/', (req, res) => {
 					{"courriel": recherche},
 				]
 			}).toArray((err, resultat) => {
-				if (err) return console.log(err)
+				if (err) return console.log(err);
 				console.log(resultat);
-				res.render('profil.ejs', {membre: resultat})
-			})
-})
+				res.render('profil.ejs', {membre: resultat});
+			});
+});
 
 ////////////////////////////////////////////////////Profil d'un membre
 app.get('/profilmembre/:id', (req, res) => {
-	let critere = ObjectID(req.params.id)
+	let critere = ObjectID(req.params.id);
 	let cursor = db.collection('adresses').find({"_id": critere}).toArray((err, resultat) => {
- 		if (err) return console.log(err)
-  	res.render('unmembre.ejs', {unmembre: resultat})
-  })
-})
+ 		if (err) return console.log(err);
+  	res.render('unmembre.ejs', {unmembre: resultat});
+  });
+});
 
 ////////////////////////////////////////////////////Internationalisation
 
-//////////////////English
+app.get('/:locale(en|fr)', (req, res)=>{
 
-app.get('/en', (req, res)=>{
-
-	res.setLocale('en');
+	console.log(req.params.locale);
+	res.setLocale(req.params.locale);
 	console.log(res.__('courriel'));
 
-	res.render('gabarit.ejs');
-})
-
-//////////////////Francais
-
-app.get('/fr', (req, res)=>{
-
-	res.setLocale('fr');
-	console.log(res.__('courriel'));
-
-	res.render('gabarit.ejs');
+	res.render('accueil.ejs');
 })

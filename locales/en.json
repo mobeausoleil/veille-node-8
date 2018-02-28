@@ -1,3 +1,6 @@
 {
-	"courriel" : "Email"
+	"courriel" : "Email",
+	"acc":"Home",
+	"membre":"Member",
+	"cherche":"Search"
 }
