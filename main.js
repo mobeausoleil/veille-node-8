@@ -26,72 +26,72 @@ i18n.configure({
 app.use(i18n.init);
 
 //Connexion à mongoDB et au serveur Node.Js
-let db // variable qui contiendra le lien sur la BD
+let db; // variable qui contiendra le lien sur la BD
 MongoClient.connect('mongodb://127.0.0.1:27017/carnet_adresses', (err, database) => {
- if (err) return console.log(err)
- db = database.db('carnet_adresses')
+ if (err) return console.log(err);
+ db = database.db('carnet_adresses');
 
 // lancement du serveur Express sur le port 8081
  app.listen(8081, () => {
- console.log('connexion à la BD et on écoute sur le port 8081')
- })
-})
+ console.log('connexion à la BD et on écoute sur le port 8081');
+ });
+});
 
 ///////////////////////////////////////////////////////////////////////////Routes
 
 ////////////////////////////////////////////////////accueil
 app.get('/', (req, res) => {
 	let cursor = db.collection('adresses').find().toArray((err, resultat) => {
- 		if (err) return console.log(err)
-  	res.render('accueil.ejs', {adresses: resultat, direction: "asc"})
-  })
-})
+ 		if (err) return console.log(err);
+  	res.render('accueil.ejs', {adresses: resultat, direction: "asc"});
+  });
+});
 
 ////////////////////////////////////////////////////Liste des membres
 app.get('/membres', (req, res) => {
 	let cursor = db.collection('adresses').find().toArray((err, resultat) => {
- 		if (err) return console.log(err)
-  	res.render('gabarit.ejs', {adresses: resultat, direction: "asc"})
-  })
-})
+ 		if (err) return console.log(err);
+  	res.render('gabarit.ejs', {adresses: resultat, direction: "asc"});
+  });
+});
 
 ////////////////////////////////////////////////////Page de recherche
 app.get('/profil', (req, res) => {
 	let cursor = db.collection('adresses').find().toArray((err, resultat) => {
- 		if (err) return console.log(err)
-  	res.render('profil.ejs', {adresses: resultat, direction: "asc", membre: undefined})
-  })
-})
+ 		if (err) return console.log(err);
+  	res.render('profil.ejs', {adresses: resultat, direction: "asc", membre: undefined});
+  });
+});
 
 /////////////////////////////////////////////////////ajouter
 app.post('/ajouter', (req, res) => {
 	db.collection('adresses').save(req.body, (err, result) => {
-		if (err) return console.log(err)
-		console.log('sauvegarder dans la BD')
-		res.redirect('/membres')
-	})
-})
+		if (err) return console.log(err);
+		console.log('sauvegarder dans la BD');
+		res.redirect('/membres');
+	});
+});
 
 /////////////////////////////////////////////////////detruire
 app.get('/detruire/:id', (req, res) => {
-	console.log("detruire")
-	let critere = ObjectID(req.params.id)
-	console.log(critere)
+	console.log("detruire");
+	let critere = ObjectID(req.params.id);
+	console.log(critere);
 	db.collection('adresses').findOneAndDelete({"_id": critere}, (err, resultat) => {
-		if (err) return console.log(err)
-		res.redirect('/membres')
-	})
-})
+		if (err) return console.log(err);
+		res.redirect('/membres');
+	});
+});
 
 /////////////////////////////////////////////////////modifier
 app.post('/modifier', (req, res) => {
-	req.body._id = ObjectID(req.body._id)
+	req.body._id = ObjectID(req.body._id);
 	db.collection('adresses').save(req.body, (err, result) => {
-		if (err) return console.log(err)
-		console.log('sauvegarder dans la BD')
-		res.redirect('/profilmembre/'+req.body._id)
-	})
-})
+		if (err) return console.log(err);
+		console.log('sauvegarder dans la BD');
+		res.redirect('/profilmembre/'+req.body._id);
+	});
+});
 
 ///////////////////////////////////////////////////Trier
 app.get('/trier/:cle/:ordre', (req, res) => {
@@ -165,3 +165,23 @@ app.get('/profilmembre/:id', (req, res) => {
 })
 
 ////////////////////////////////////////////////////Internationalisation
+
+//////////////////English
+
+app.get('/en', (req, res)=>{
+
+	res.setLocale('en');
+	console.log(res.__('courriel'));
+
+	res.render('gabarit.ejs');
+})
+
+//////////////////Francais
+
+app.get('/fr', (req, res)=>{
+
+	res.setLocale('fr');
+	console.log(res.__('courriel'));
+
+	res.render('gabarit.ejs');
+})
